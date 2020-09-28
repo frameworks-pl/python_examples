@@ -8,18 +8,17 @@ url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IB
 with urllib.request.urlopen(url) as response:
     content = json.loads(response.read().decode())
 
-nowDateTime = datetime.now(timezone('US/Pacific'))
-print("Current PST time:" + nowDateTime.strftime("'%Y-%m-%d %H:%M:%S'"))
+quotesTZ = content['Meta Data']['6. Time Zone']
+
+nowDateTime = datetime.now(timezone(quotesTZ))
+print("Current " + quotesTZ + " time:" + nowDateTime.strftime("%Y-%m-%d %H:%M:%S"))
 for k in content["Time Series (5min)"].keys():
-    #we need timezone for the math to work, but this will also move the date by seven hours
-    #to compensate for this, we will add those 7 hours back
-    currDateTime = datetime.strptime(k, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone('US/Pacific')) # + timedelta(hours=7)
+    currDateTime = datetime.strptime(k, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone(quotesTZ))
     
     datetimeDelta = nowDateTime - currDateTime
     datetimeDeltaInHrs = datetimeDelta.days * 24 + int(round(datetimeDelta.seconds / 3600))
     itemsShown = 0
-    #print(currDateTime.strftime("%Y-%m-%d %H:%M:%S") + " " + str(datetimeDeltaInHrs))
-    delta = 1 #just for test as it's over weekend so last quote was more than 48 hours ago
+    delta = 1 
     if datetimeDeltaInHrs <= delta:
         content["Time Series (5min)"][k]["4. close"]
         itemsShown += 1
