@@ -9,8 +9,8 @@ with urllib.request.urlopen(url) as response:
     content = json.loads(response.read().decode())
 
 quotesTZ = content['Meta Data']['6. Time Zone']
-
 nowDateTime = datetime.now(timezone(quotesTZ))
+
 print("Current " + quotesTZ + " time:" + nowDateTime.strftime("%Y-%m-%d %H:%M:%S"))
 for k in content["Time Series (5min)"].keys():
     currDateTime = datetime.strptime(k, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone(quotesTZ))
