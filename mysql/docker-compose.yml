@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+    php:
+        container_name: c-mysql
+        build:
+          context: ./
+          dockerfile: ./Dockerfile
+        volumes:
+         - ./:/mysql        
