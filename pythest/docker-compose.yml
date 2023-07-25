@@ -7,6 +7,6 @@ services:
       - ./:/tmp
     build:
       context: ./
-      dockerfile: ./Dockerfile
+      dockerfile: ./docker/Dockerfile
     entrypoint: tail -f /dev/null 
     working_dir: /tmp
