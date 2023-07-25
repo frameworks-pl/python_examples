@@ -1,0 +1,2 @@
+docker build . -t i-pytest
+docker run i-pytest

@@ -3,10 +3,10 @@ version: '3'
 services:
   python:
     container_name: c-pytest
-    volumes:
-      - ./:/tmp
+#    volumes:
+#      - ./:/tmp
     build:
       context: ./
-      dockerfile: ./docker/Dockerfile
-    entrypoint: tail -f /dev/null 
+      dockerfile: ./Dockerfile
+    entrypoint: pytest 
     working_dir: /tmp
